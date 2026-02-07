@@ -21,6 +21,10 @@ public class MovimientoController {
         return movimientoService.guardar(movimiento);
     }
 
+    @PutMapping("/{id}")
+    public Movimiento actualizar(@PathVariable Long id, @RequestBody Movimiento movimiento) {
+        return movimientoService.actualizar(id, movimiento);
+    }
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) { movimientoService.eliminar(id); }
 }

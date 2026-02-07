@@ -52,8 +52,34 @@ public class MovimientoServiceImpl implements MovimientoService{
         movimiento.setSaldo(nuevoSaldo);
         movimiento.setCuenta(cuenta);
 
-        // 6. Guardar el registro del movimiento
         return movimientoRepository.save(movimiento);
+    }
+
+    @Override
+    @Transactional
+    public Movimiento actualizar(Long id, Movimiento movimientoDetalles) {
+        Movimiento movimientoExistente = movimientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+
+        Cuenta cuenta = movimientoExistente.getCuenta();
+
+        double saldoSinMovimientoOriginal = cuenta.getSaldoInicial() - movimientoExistente.getValor();
+
+        double nuevoValor = movimientoDetalles.getValor();
+        if (nuevoValor < 0 && Math.abs(nuevoValor) > saldoSinMovimientoOriginal) {
+            throw new RuntimeException("Saldo no disponible para esta actualización");
+        }
+
+        double nuevoSaldoFinal = saldoSinMovimientoOriginal + nuevoValor;
+        cuenta.setSaldoInicial(nuevoSaldoFinal);
+        cuentaRepository.save(cuenta);
+
+        movimientoExistente.setTipoMovimiento(movimientoDetalles.getTipoMovimiento());
+        movimientoExistente.setValor(nuevoValor);
+        movimientoExistente.setSaldo(nuevoSaldoFinal);
+        // La fecha se mantiene o se puede actualizar a LocalDateTime.now() según prefieras.
+
+        return movimientoRepository.save(movimientoExistente);
     }
 
     @Override
@@ -61,7 +87,6 @@ public class MovimientoServiceImpl implements MovimientoService{
     public void eliminar(Long id) {
         Movimiento movimiento = buscarPorId(id);
 
-        // Opcional: Revertir el saldo en la cuenta antes de borrar el movimiento
         Cuenta cuenta = movimiento.getCuenta();
         cuenta.setSaldoInicial(cuenta.getSaldoInicial() - movimiento.getValor());
         cuentaRepository.save(cuenta);
