@@ -1,5 +1,7 @@
 package com.test.neoris.service;
 
+import com.test.neoris.dto.ReporteEstadoCuentaDTO;
+import com.test.neoris.dto.ReporteInterface;
 import com.test.neoris.entity.Cuenta;
 import com.test.neoris.entity.Movimiento;
 import com.test.neoris.repository.CuentaRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MovimientoServiceImpl implements MovimientoService{
@@ -44,10 +47,8 @@ public class MovimientoServiceImpl implements MovimientoService{
         }
 
         double nuevoSaldo = saldoActual + valorMovimiento;
-
         cuenta.setSaldoInicial(nuevoSaldo);
         cuentaRepository.save(cuenta);
-
         movimiento.setFecha(LocalDateTime.now());
         movimiento.setSaldo(nuevoSaldo);
         movimiento.setCuenta(cuenta);
@@ -62,9 +63,7 @@ public class MovimientoServiceImpl implements MovimientoService{
                 .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
 
         Cuenta cuenta = movimientoExistente.getCuenta();
-
         double saldoSinMovimientoOriginal = cuenta.getSaldoInicial() - movimientoExistente.getValor();
-
         double nuevoValor = movimientoDetalles.getValor();
         if (nuevoValor < 0 && Math.abs(nuevoValor) > saldoSinMovimientoOriginal) {
             throw new RuntimeException("Saldo no disponible para esta actualización");
@@ -73,12 +72,10 @@ public class MovimientoServiceImpl implements MovimientoService{
         double nuevoSaldoFinal = saldoSinMovimientoOriginal + nuevoValor;
         cuenta.setSaldoInicial(nuevoSaldoFinal);
         cuentaRepository.save(cuenta);
-
         movimientoExistente.setTipoMovimiento(movimientoDetalles.getTipoMovimiento());
         movimientoExistente.setValor(nuevoValor);
         movimientoExistente.setSaldo(nuevoSaldoFinal);
-        // La fecha se mantiene o se puede actualizar a LocalDateTime.now() según prefieras.
-
+        movimientoExistente.setFecha(movimientoDetalles.getFecha());
         return movimientoRepository.save(movimientoExistente);
     }
 
@@ -86,11 +83,32 @@ public class MovimientoServiceImpl implements MovimientoService{
     @Transactional
     public void eliminar(Long id) {
         Movimiento movimiento = buscarPorId(id);
-
         Cuenta cuenta = movimiento.getCuenta();
         cuenta.setSaldoInicial(cuenta.getSaldoInicial() - movimiento.getValor());
         cuentaRepository.save(cuenta);
-
         movimientoRepository.delete(movimiento);
+    }
+
+    @Override
+    @Transactional
+    public List<Movimiento> obtenerReporte(Long clienteId, LocalDateTime inicio, LocalDateTime fin) {
+        return movimientoRepository.generarReporte(clienteId, inicio, fin);
+    }
+
+    @Override
+    @Transactional
+    public List<ReporteEstadoCuentaDTO> obtenerReporteSp(Long clienteId, LocalDateTime inicio, LocalDateTime fin) {
+        List<ReporteInterface> proyecciones = movimientoRepository.generarReporteSp(clienteId, inicio, fin);
+
+        return proyecciones.stream().map(p -> new ReporteEstadoCuentaDTO(
+                p.getFecha(),
+                p.getCliente(),
+                p.getNumeroCuenta(),
+                p.getTipo(),
+                p.getSaldoInicial(),
+                p.getEstado(),
+                p.getMovimiento(),
+                p.getSaldoDisponible()
+        )).collect(Collectors.toList());
     }
 }
