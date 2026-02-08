@@ -1,6 +1,7 @@
 package com.test.neoris.service;
 
 import com.test.neoris.entity.Cliente;
+import com.test.neoris.exception.ResourceNotFoundException;
 import com.test.neoris.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente buscarPorId(Long id) {
-        return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + id));
     }
 
     @Override

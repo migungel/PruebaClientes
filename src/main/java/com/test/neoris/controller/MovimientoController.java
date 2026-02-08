@@ -1,8 +1,10 @@
 package com.test.neoris.controller;
 
+import com.test.neoris.dto.ApiResponse;
 import com.test.neoris.entity.Movimiento;
 import com.test.neoris.service.MovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +16,13 @@ public class MovimientoController {
     private MovimientoService movimientoService;
 
     @GetMapping
-    public List<Movimiento> listar() { return movimientoService.listarTodos(); }
+    public ResponseEntity<ApiResponse<List<Movimiento>>> listar() {
+        List<Movimiento> movimientos = movimientoService.listarTodos();
+        if (movimientos.isEmpty()) {
+            return ResponseEntity.ok(new ApiResponse<>("No se encontraron movimientos registrados", movimientos));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(movimientos));
+    }
 
     @PostMapping
     public Movimiento crear(@RequestBody Movimiento movimiento) {

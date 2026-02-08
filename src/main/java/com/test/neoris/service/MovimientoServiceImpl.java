@@ -4,6 +4,8 @@ import com.test.neoris.dto.ReporteEstadoCuentaDTO;
 import com.test.neoris.dto.ReporteInterface;
 import com.test.neoris.entity.Cuenta;
 import com.test.neoris.entity.Movimiento;
+import com.test.neoris.exception.BusinessException;
+import com.test.neoris.exception.ResourceNotFoundException;
 import com.test.neoris.repository.CuentaRepository;
 import com.test.neoris.repository.MovimientoRepository;
 import jakarta.transaction.Transactional;
@@ -30,20 +32,20 @@ public class MovimientoServiceImpl implements MovimientoService{
     @Override
     public Movimiento buscarPorId(Long id) {
         return movimientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Movimiento no encontrado con ID: " + id));
     }
 
     @Override
     @Transactional
     public Movimiento guardar(Movimiento movimiento) {
         Cuenta cuenta = cuentaRepository.findById(movimiento.getCuenta().getId())
-                .orElseThrow(() -> new RuntimeException("La cuenta asociada no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("La cuenta asociada no existe"));
 
         double saldoActual = cuenta.getSaldoInicial();
         double valorMovimiento = movimiento.getValor();
 
         if (valorMovimiento < 0 && Math.abs(valorMovimiento) > saldoActual) {
-            throw new RuntimeException("Saldo no disponible");
+            throw new BusinessException("Saldo no disponible");
         }
 
         double nuevoSaldo = saldoActual + valorMovimiento;
@@ -60,13 +62,13 @@ public class MovimientoServiceImpl implements MovimientoService{
     @Transactional
     public Movimiento actualizar(Long id, Movimiento movimientoDetalles) {
         Movimiento movimientoExistente = movimientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Movimiento no encontrado con ID: " + id));
 
         Cuenta cuenta = movimientoExistente.getCuenta();
         double saldoSinMovimientoOriginal = cuenta.getSaldoInicial() - movimientoExistente.getValor();
         double nuevoValor = movimientoDetalles.getValor();
         if (nuevoValor < 0 && Math.abs(nuevoValor) > saldoSinMovimientoOriginal) {
-            throw new RuntimeException("Saldo no disponible para esta actualización");
+            throw new BusinessException("Saldo no disponible para esta actualización");
         }
 
         double nuevoSaldoFinal = saldoSinMovimientoOriginal + nuevoValor;

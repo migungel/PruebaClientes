@@ -1,5 +1,6 @@
 package com.test.neoris.controller;
 
+import com.test.neoris.dto.ApiResponse;
 import com.test.neoris.dto.ReporteEstadoCuentaDTO;
 import com.test.neoris.dto.ReporteInterface;
 import com.test.neoris.entity.Movimiento;
@@ -25,24 +26,31 @@ public class ReporteController {
     private MovimientoService movimientoService;
 
     @GetMapping
-    public List<Movimiento> getReporte(
+    public ResponseEntity<ApiResponse<List<Movimiento>>> getReporte(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate fechaInicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate fechaFin,
             @RequestParam Long clienteId) {
         LocalDateTime inicio = fechaInicio.atStartOfDay();
         LocalDateTime fin = fechaFin.atTime(LocalTime.MAX);
 
-        return movimientoService.obtenerReporte(clienteId, inicio, fin);
+        List<Movimiento> movimientos = movimientoService.obtenerReporte(clienteId, inicio, fin);
+        if (movimientos.isEmpty()) {
+            return ResponseEntity.ok(new ApiResponse<>("No se encontraron movimientos para el cliente y rango de fechas especificado", movimientos));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(movimientos));
     }
 
     @GetMapping("/sp")
-    public ResponseEntity<List<ReporteEstadoCuentaDTO>> getReporteSp(
+    public ResponseEntity<ApiResponse<List<ReporteEstadoCuentaDTO>>> getReporteSp(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate fechaInicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate fechaFin,
             @RequestParam Long clienteId) {
         LocalDateTime inicio = fechaInicio.atStartOfDay();
         LocalDateTime fin = fechaFin.atTime(LocalTime.MAX);
         List<ReporteEstadoCuentaDTO> reporte = movimientoService.obtenerReporteSp(clienteId, inicio, fin);
-        return ResponseEntity.ok(reporte);
+        if (reporte.isEmpty()) {
+            return ResponseEntity.ok(new ApiResponse<>("No se encontraron movimientos para el cliente y rango de fechas especificado", reporte));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(reporte));
     }
 }

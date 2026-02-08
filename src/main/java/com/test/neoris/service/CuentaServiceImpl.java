@@ -1,9 +1,10 @@
 package com.test.neoris.service;
 
 import com.test.neoris.entity.Cuenta;
+import com.test.neoris.exception.BusinessException;
+import com.test.neoris.exception.ResourceNotFoundException;
 import com.test.neoris.repository.ClienteRepository;
 import com.test.neoris.repository.CuentaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,11 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     public Cuenta guardar(Cuenta cuenta) {
         if (cuenta.getCliente() == null || cuenta.getCliente().getId() == null) {
-            throw new RuntimeException("La cuenta debe tener un cliente asignado");
+            throw new BusinessException("La cuenta debe tener un cliente asignado");
         }
 
         clienteRepository.findById(cuenta.getCliente().getId())
-                .orElseThrow(() -> new EntityNotFoundException("El cliente con ID " + cuenta.getCliente().getId() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("El cliente con ID " + cuenta.getCliente().getId() + " no existe"));
 
         return cuentaRepository.save(cuenta);
     }
@@ -37,7 +38,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     public Cuenta buscarPorId(Long id) {
         return cuentaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada con ID: " + id));
     }
 
     @Override

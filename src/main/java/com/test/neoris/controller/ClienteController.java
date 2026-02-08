@@ -1,5 +1,6 @@
 package com.test.neoris.controller;
 
+import com.test.neoris.dto.ApiResponse;
 import com.test.neoris.entity.Cliente;
 import com.test.neoris.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public List<Cliente> listar() {
-        return clienteService.listarTodos();
+    public ResponseEntity<ApiResponse<List<Cliente>>> listar() {
+        List<Cliente> clientes = clienteService.listarTodos();
+        if (clientes.isEmpty()) {
+            return ResponseEntity.ok(new ApiResponse<>("No se encontraron clientes registrados", clientes));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(clientes));
     }
 
     @PostMapping
