@@ -10,87 +10,88 @@ import java.time.LocalDate;
 //@AllArgsConstructor
 //@NoArgsConstructor
 public class ReporteEstadoCuentaDTO {
-    private LocalDate Fecha;
-    private String Cliente;
-    private String NumeroCuenta;
-    private String Tipo;
-    private Double SaldoInicial;
-    private Boolean Estado;
-    private Double Movimiento;
-    private Double SaldoDisponible;
+    private LocalDate fecha;
+    private String cliente;
+    private String numeroCuenta;
+    private String tipo;
+    private Double saldoInicial;
+    private Boolean estado;
+    private Double movimiento;
+    private Double saldoDisponible;
+
 
     public ReporteEstadoCuentaDTO(LocalDate fecha, String cliente, String numeroCuenta, String tipo, Double saldoInicial, Boolean estado, Double movimiento, Double saldoDisponible) {
-        Fecha = fecha;
-        Cliente = cliente;
-        NumeroCuenta = numeroCuenta;
-        Tipo = tipo;
-        SaldoInicial = saldoInicial;
-        Estado = estado;
-        Movimiento = movimiento;
-        SaldoDisponible = saldoDisponible;
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.numeroCuenta = numeroCuenta;
+        this.tipo = tipo;
+        this.saldoInicial = saldoInicial;
+        this.estado = estado;
+        this.movimiento = movimiento;
+        this.saldoDisponible = saldoDisponible;
     }
 
     public LocalDate getFecha() {
-        return Fecha;
+        return fecha;
     }
 
     public void setFecha(LocalDate fecha) {
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 
     public String getCliente() {
-        return Cliente;
+        return cliente;
     }
 
     public void setCliente(String cliente) {
-        Cliente = cliente;
+        this.cliente = cliente;
     }
 
     public String getNumeroCuenta() {
-        return NumeroCuenta;
+        return numeroCuenta;
     }
 
     public void setNumeroCuenta(String numeroCuenta) {
-        NumeroCuenta = numeroCuenta;
+        this.numeroCuenta = numeroCuenta;
     }
 
     public String getTipo() {
-        return Tipo;
+        return tipo;
     }
 
     public void setTipo(String tipo) {
-        Tipo = tipo;
+        this.tipo = tipo;
     }
 
     public Double getSaldoInicial() {
-        return SaldoInicial;
+        return saldoInicial;
     }
 
     public void setSaldoInicial(Double saldoInicial) {
-        SaldoInicial = saldoInicial;
+        this.saldoInicial = saldoInicial;
     }
 
     public Boolean getEstado() {
-        return Estado;
+        return estado;
     }
 
     public void setEstado(Boolean estado) {
-        Estado = estado;
+        this.estado = estado;
     }
 
     public Double getMovimiento() {
-        return Movimiento;
+        return movimiento;
     }
 
     public void setMovimiento(Double movimiento) {
-        Movimiento = movimiento;
+        this.movimiento = movimiento;
     }
 
     public Double getSaldoDisponible() {
-        return SaldoDisponible;
+        return saldoDisponible;
     }
 
     public void setSaldoDisponible(Double saldoDisponible) {
-        SaldoDisponible = saldoDisponible;
+        this.saldoDisponible = saldoDisponible;
     }
 }

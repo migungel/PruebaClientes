@@ -1,5 +1,6 @@
 package com.test.neoris.service;
 
+import com.test.neoris.entity.Cliente;
 import com.test.neoris.entity.Cuenta;
 import com.test.neoris.exception.BusinessException;
 import com.test.neoris.exception.ResourceNotFoundException;
@@ -29,9 +30,10 @@ public class CuentaServiceImpl implements CuentaService {
             throw new BusinessException("La cuenta debe tener un cliente asignado");
         }
 
-        clienteRepository.findById(cuenta.getCliente().getId())
+        Cliente cliente = clienteRepository.findById(cuenta.getCliente().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("El cliente con ID " + cuenta.getCliente().getId() + " no existe"));
 
+        cuenta.setCliente(cliente);
         return cuentaRepository.save(cuenta);
     }
 

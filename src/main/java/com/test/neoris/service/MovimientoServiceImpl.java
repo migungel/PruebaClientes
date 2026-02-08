@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MovimientoServiceImpl implements MovimientoService{
+public class MovimientoServiceImpl implements MovimientoService {
     @Autowired
     private MovimientoRepository movimientoRepository;
 
@@ -36,26 +36,33 @@ public class MovimientoServiceImpl implements MovimientoService{
     }
 
     @Override
-    @Transactional
     public Movimiento guardar(Movimiento movimiento) {
         Cuenta cuenta = cuentaRepository.findById(movimiento.getCuenta().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("La cuenta asociada no existe"));
 
+        List<Movimiento> movimientosPrevios = movimientoRepository.findAll().stream()
+                .filter(m -> m.getCuenta().getId().equals(cuenta.getId()))
+                .toList();
+
         double saldoActual = cuenta.getSaldoInicial();
+        for (Movimiento m : movimientosPrevios) {
+            saldoActual += m.getValor();
+        }
+
         double valorMovimiento = movimiento.getValor();
+        double nuevoSaldo = saldoActual + valorMovimiento;
+
+        movimiento.setFecha(LocalDateTime.now());
+        movimiento.setSaldo(nuevoSaldo);
+        movimiento.setCuenta(cuenta);
+
+        Movimiento movimientoGuardado = movimientoRepository.save(movimiento);
 
         if (valorMovimiento < 0 && Math.abs(valorMovimiento) > saldoActual) {
             throw new BusinessException("Saldo no disponible");
         }
 
-        double nuevoSaldo = saldoActual + valorMovimiento;
-        cuenta.setSaldoInicial(nuevoSaldo);
-        cuentaRepository.save(cuenta);
-        movimiento.setFecha(LocalDateTime.now());
-        movimiento.setSaldo(nuevoSaldo);
-        movimiento.setCuenta(cuenta);
-
-        return movimientoRepository.save(movimiento);
+        return movimientoGuardado;
     }
 
     @Override
@@ -65,15 +72,24 @@ public class MovimientoServiceImpl implements MovimientoService{
                 .orElseThrow(() -> new ResourceNotFoundException("Movimiento no encontrado con ID: " + id));
 
         Cuenta cuenta = movimientoExistente.getCuenta();
-        double saldoSinMovimientoOriginal = cuenta.getSaldoInicial() - movimientoExistente.getValor();
+
+        List<Movimiento> movimientosPrevios = movimientoRepository.findAll().stream()
+                .filter(m -> m.getCuenta().getId().equals(cuenta.getId()) && !m.getId().equals(id))
+                .toList();
+
+        double saldoSinMovimiento = cuenta.getSaldoInicial();
+        for (Movimiento m : movimientosPrevios) {
+            saldoSinMovimiento += m.getValor();
+        }
+
         double nuevoValor = movimientoDetalles.getValor();
-        if (nuevoValor < 0 && Math.abs(nuevoValor) > saldoSinMovimientoOriginal) {
+
+        if (nuevoValor < 0 && Math.abs(nuevoValor) > saldoSinMovimiento) {
             throw new BusinessException("Saldo no disponible para esta actualización");
         }
 
-        double nuevoSaldoFinal = saldoSinMovimientoOriginal + nuevoValor;
-        cuenta.setSaldoInicial(nuevoSaldoFinal);
-        cuentaRepository.save(cuenta);
+        double nuevoSaldoFinal = saldoSinMovimiento + nuevoValor;
+
         movimientoExistente.setTipoMovimiento(movimientoDetalles.getTipoMovimiento());
         movimientoExistente.setValor(nuevoValor);
         movimientoExistente.setSaldo(nuevoSaldoFinal);
@@ -85,9 +101,6 @@ public class MovimientoServiceImpl implements MovimientoService{
     @Transactional
     public void eliminar(Long id) {
         Movimiento movimiento = buscarPorId(id);
-        Cuenta cuenta = movimiento.getCuenta();
-        cuenta.setSaldoInicial(cuenta.getSaldoInicial() - movimiento.getValor());
-        cuentaRepository.save(cuenta);
         movimientoRepository.delete(movimiento);
     }
 
@@ -110,7 +123,6 @@ public class MovimientoServiceImpl implements MovimientoService{
                 p.getSaldoInicial(),
                 p.getEstado(),
                 p.getMovimiento(),
-                p.getSaldoDisponible()
-        )).collect(Collectors.toList());
+                p.getSaldoDisponible())).collect(Collectors.toList());
     }
 }

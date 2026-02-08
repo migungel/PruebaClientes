@@ -10,4 +10,5 @@ public interface ClienteService {
     Cliente actualizar(Long id, Cliente cliente);
     void eliminar(Long id);
     Cliente buscarPorId(Long id);
+    Cliente buscarPorClienteid(String clienteid);
 }

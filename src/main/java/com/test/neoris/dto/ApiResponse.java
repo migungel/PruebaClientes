@@ -6,23 +6,16 @@ public class ApiResponse<T> {
     private LocalDateTime timestamp;
     private String message;
     private T data;
-    private int count;
 
     public ApiResponse(String message, T data) {
         this.timestamp = LocalDateTime.now();
         this.message = message;
         this.data = data;
-        if (data instanceof java.util.List) {
-            this.count = ((java.util.List<?>) data).size();
-        }
     }
 
     public ApiResponse(T data) {
         this.timestamp = LocalDateTime.now();
         this.data = data;
-        if (data instanceof java.util.List) {
-            this.count = ((java.util.List<?>) data).size();
-        }
     }
 
     public LocalDateTime getTimestamp() {
@@ -47,13 +40,5 @@ public class ApiResponse<T> {
 
     public void setData(T data) {
         this.data = data;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 }
