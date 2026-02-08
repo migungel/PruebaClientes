@@ -2,7 +2,6 @@ package com.test.neoris.controller;
 
 import com.test.neoris.dto.ApiResponse;
 import com.test.neoris.dto.ReporteEstadoCuentaDTO;
-import com.test.neoris.dto.ReporteInterface;
 import com.test.neoris.entity.Movimiento;
 import com.test.neoris.service.MovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,8 @@ public class ReporteController {
 
         List<Movimiento> movimientos = movimientoService.obtenerReporte(clienteId, inicio, fin);
         if (movimientos.isEmpty()) {
-            return ResponseEntity.ok(new ApiResponse<>("No se encontraron movimientos para el cliente y rango de fechas especificado", movimientos));
+            return ResponseEntity.ok(new ApiResponse<>(
+                    "No se encontraron movimientos para el cliente y rango de fechas especificado", movimientos));
         }
         return ResponseEntity.ok(new ApiResponse<>(movimientos));
     }
@@ -49,7 +49,8 @@ public class ReporteController {
         LocalDateTime fin = fechaFin.atTime(LocalTime.MAX);
         List<ReporteEstadoCuentaDTO> reporte = movimientoService.obtenerReporteSp(clienteId, inicio, fin);
         if (reporte.isEmpty()) {
-            return ResponseEntity.ok(new ApiResponse<>("No se encontraron movimientos para el cliente y rango de fechas especificado", reporte));
+            return ResponseEntity.ok(new ApiResponse<>(
+                    "No se encontraron movimientos para el cliente y rango de fechas especificado", reporte));
         }
         return ResponseEntity.ok(new ApiResponse<>(reporte));
     }

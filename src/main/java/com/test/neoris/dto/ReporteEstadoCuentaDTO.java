@@ -1,8 +1,8 @@
 package com.test.neoris.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+// import lombok.AllArgsConstructor;
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -19,8 +19,8 @@ public class ReporteEstadoCuentaDTO {
     private Double movimiento;
     private Double saldoDisponible;
 
-
-    public ReporteEstadoCuentaDTO(LocalDate fecha, String cliente, String numeroCuenta, String tipo, Double saldoInicial, Boolean estado, Double movimiento, Double saldoDisponible) {
+    public ReporteEstadoCuentaDTO(LocalDate fecha, String cliente, String numeroCuenta, String tipo,
+            Double saldoInicial, Boolean estado, Double movimiento, Double saldoDisponible) {
         this.fecha = fecha;
         this.cliente = cliente;
         this.numeroCuenta = numeroCuenta;
