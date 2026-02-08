@@ -4,19 +4,65 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     environment:
-      MYSQL_DATABASE: banco_db
+      MYSQL_DATABASE: basedatos
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./BaseDatos.sql:/docker-entrypoint-initdb.d/BaseDatos.sql
     ports:
       - "3306:3306"
+    networks:
+      - microservices-network
 
-  app:
-    build: .
-    container_name: spring-backend
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "8080:8080"
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - microservices-network
+
+  servicio-cliente-persona:
+    build: ./servicio-cliente-persona
+    container_name: servicio-cliente-persona
+    ports:
+      - "8081:8081"
     depends_on:
       - db
+      - rabbitmq
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/banco_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/basedatos?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    networks:
+      - microservices-network
+
+  servicio-cuenta-movimientos:
+    build: ./servicio-cuenta-movimientos
+    container_name: servicio-cuenta-movimientos
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/basedatos?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
