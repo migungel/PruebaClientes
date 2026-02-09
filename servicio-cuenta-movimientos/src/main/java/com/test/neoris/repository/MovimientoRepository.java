@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
-        @Query("SELECT m FROM Movimiento m WHERE m.cuenta.cliente.id = :clienteId " +
+        @Query("SELECT m FROM Movimiento m WHERE m.cuenta.clienteId = :clienteId " +
                         "AND m.fecha BETWEEN :fechaInicio AND :fechaFin")
         List<Movimiento> generarReporte(
                         @Param("clienteId") Long clienteId,

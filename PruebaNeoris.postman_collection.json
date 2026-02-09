@@ -1,0 +1,836 @@
+{
+  "info": {
+    "_postman_id": "0ec49d6f-53e1-42a6-8a30-9bfd5ad141e2",
+    "name": "PruebaNeoris",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12198904"
+  },
+  "item": [
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "clientes",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes clienteid",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes?clienteid=jlema",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes"
+              ],
+              "query": [
+                {
+                  "key": "clienteid",
+                  "value": "jlema"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar us1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Jose Lema\",\r\n  \"genero\": \"Masculino\",\r\n  \"edad\": 30,\r\n  \"identificacion\": \"123456789\",\r\n  \"direccion\": \"Otavalo sn y principal\",\r\n  \"telefono\": \"098254785\",\r\n  \"clienteid\": \"jlema1\",\r\n  \"contrasena\": \"1234\",\r\n  \"estado\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar us2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Marianela Montalvo\",\r\n  \"genero\": \"Femenino\",\r\n  \"edad\": 28,\r\n  \"identificacion\": \"987654321\",\r\n  \"direccion\": \"Amazonas y NNUU\",\r\n  \"telefono\": \"097548965\",\r\n  \"clienteid\": \"mmontalvo\",\r\n  \"contrasena\": \"5678\",\r\n  \"estado\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar us3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Juan Osorio\",\r\n  \"genero\": \"Masculino\",\r\n  \"edad\": 35,\r\n  \"identificacion\": \"2233445566\",\r\n  \"direccion\": \"13 de junio y Equinoccial\",\r\n  \"telefono\": \"098874587\",\r\n  \"clienteid\": \"josorio\",\r\n  \"contrasena\": \"1245\",\r\n  \"estado\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "actualiza id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Jose Lema\",\r\n  \"genero\": \"Masculino\",\r\n  \"edad\": 30,\r\n  \"identificacion\": \"123456789\",\r\n  \"direccion\": \"Otavalo sn y principal\",\r\n  \"telefono\": \"098254785\",\r\n  \"clienteid\": \"JLEMA123\",\r\n  \"contrasena\": \"456789\",\r\n  \"estado\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "borrar id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CLIENTE}}/api/clientes/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CLIENTE}}",
+              "path": [
+                "api",
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cuenta",
+      "item": [
+        {
+          "name": "cuentas",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cuentas num",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas?numeroCuenta=478758",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ],
+              "query": [
+                {
+                  "key": "numeroCuenta",
+                  "value": "478758"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar cta1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numeroCuenta\": \"478758\",\r\n  \"tipoCuenta\": \"Ahorro\",\r\n  \"saldoInicial\": 2000.0,\r\n  \"estado\": true,\r\n  \"clienteId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar cta2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numeroCuenta\": \"225487\",\r\n  \"tipoCuenta\": \"Corriente\",\r\n  \"saldoInicial\": 100.0,\r\n  \"estado\": true,\r\n  \"clienteId\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar cta3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numeroCuenta\": \"495878\",\r\n  \"tipoCuenta\": \"Ahorros\",\r\n  \"saldoInicial\": 0.0,\r\n  \"estado\": true,\r\n  \"clienteId\": 4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar cta4",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numeroCuenta\": \"496825\",\r\n  \"tipoCuenta\": \"Ahorros\",\r\n  \"saldoInicial\": 540.0,\r\n  \"estado\": true,\r\n  \"clienteId\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agregar cta5",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numeroCuenta\": \"585545\",\r\n  \"tipoCuenta\": \"Corriente\",\r\n  \"saldoInicial\": 1000.0,\r\n  \"estado\": true,\r\n  \"clienteId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "actualiza id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"numeroCuenta\": \"478758\",\r\n    \"tipoCuenta\": \"Corriente\",\r\n    \"saldoInicial\": 3500.0,\r\n    \"estado\": true,\r\n    \"clienteId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "borrar id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/cuentas/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "cuentas",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Movimientos",
+      "item": [
+        {
+          "name": "movimientos",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retiro 575",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"valor\": -575.0,\r\n  \"tipoMovimiento\": \"Retiro\",\r\n  \"cuenta\": { \"id\": 2 }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deposito 600",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"valor\": 600.0,\r\n  \"tipoMovimiento\": \"Deposito\",\r\n  \"cuenta\": { \"id\": 3 }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deposito 150",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"valor\": 150.0,\r\n  \"tipoMovimiento\": \"Deposito\",\r\n  \"cuenta\": { \"id\": 5 }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retiro 540",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"valor\": -540.0,\r\n  \"tipoMovimiento\": \"Retiro\",\r\n  \"cuenta\": { \"id\": 6 }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "actualiza id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fecha\": \"2026-01-01T10:00:00\",\r\n    \"tipoMovimiento\": \"Retiro\",\r\n    \"valor\": -50.0,\r\n    \"saldo\": 2000.0,\r\n    \"cuenta\": {\r\n        \"id\": 2\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "borrar id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/movimientos/1",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "movimientos",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "item": [
+        {
+          "name": "movimientos json",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/reportes?fechaInicio=2026-02-01&fechaFin=2026-02-28&clienteId=3",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "reportes"
+              ],
+              "query": [
+                {
+                  "key": "fechaInicio",
+                  "value": "2026-02-01"
+                },
+                {
+                  "key": "fechaFin",
+                  "value": "2026-02-28"
+                },
+                {
+                  "key": "clienteId",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "movimientos sp",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT}}:{{PORT_CUENTA}}/api/reportes/sp?fechaInicio=2026-02-01&fechaFin=2026-02-28&clienteId=3",
+              "host": [
+                "{{ENDPOINT}}"
+              ],
+              "port": "{{PORT_CUENTA}}",
+              "path": [
+                "api",
+                "reportes",
+                "sp"
+              ],
+              "query": [
+                {
+                  "key": "fechaInicio",
+                  "value": "2026-02-01"
+                },
+                {
+                  "key": "fechaFin",
+                  "value": "2026-02-28"
+                },
+                {
+                  "key": "clienteId",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "ENDPOINT",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "PORT_CLIENTE",
+      "value": ""
+    },
+    {
+      "key": "PORT_CUENTA",
+      "value": ""
+    }
+  ]
+}

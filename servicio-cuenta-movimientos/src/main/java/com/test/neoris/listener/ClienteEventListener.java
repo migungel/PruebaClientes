@@ -1,7 +1,6 @@
 package com.test.neoris.listener;
 
 import com.test.neoris.config.RabbitMQConfig;
-import com.test.neoris.entity.Cliente;
 import com.test.neoris.event.ClienteCreado;
 import com.test.neoris.repository.CuentaRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

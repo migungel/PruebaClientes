@@ -1,13 +1,11 @@
 package com.test.neoris.entity;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 import lombok.Data;
 
 //@Data
 @Entity
 @Table(name = "cuenta")
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +18,8 @@ public class Cuenta {
     private double saldoInicial;
     private Boolean estado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "id")
-    private Cliente cliente;
+    @Column(name = "cliente_id", nullable = false)
+    private Long clienteId;
 
     public Long getId() {
         return id;
@@ -64,11 +61,11 @@ public class Cuenta {
         this.estado = estado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 }

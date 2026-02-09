@@ -50,3 +50,29 @@ VALUES ('478758', 'Ahorros', 2000.00, TRUE, 1);
 INSERT INTO movimiento (fecha, tipo_movimiento, valor, saldo, cuenta_id) 
 VALUES (NOW(), 'Deposito', 500.00, 2500.00, 1);
 
+
+DELIMITER $$
+
+CREATE DEFINER=root@localhost PROCEDURE sp_generar_reporte(
+    IN p_cliente_id INT,
+    IN p_fecha_inicio DATETIME,
+    IN p_fecha_fin DATETIME
+)
+BEGIN
+    SELECT
+        m.fecha AS Fecha,
+        cl.nombre AS Cliente,
+        c.numero_cuenta AS NumeroCuenta,
+        c.tipo_cuenta AS Tipo,
+        c.saldo_inicial AS SaldoInicial,
+        c.estado AS Estado,
+        m.valor AS Movimiento,
+        m.saldo AS SaldoDisponible
+    FROM movimiento m
+    INNER JOIN cuenta c ON m.cuenta_id = c.id
+    INNER JOIN cliente cl ON c.cliente_id = cl.id
+    WHERE cl.id = p_cliente_id
+    AND m.fecha BETWEEN p_fecha_inicio AND p_fecha_fin;
+END$$
+
+DELIMITER ;

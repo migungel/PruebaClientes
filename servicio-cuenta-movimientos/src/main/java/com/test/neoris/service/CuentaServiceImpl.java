@@ -21,7 +21,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public Cuenta guardar(Cuenta cuenta) {
-        if (cuenta.getCliente() == null || cuenta.getCliente().getId() == null) {
+        if (cuenta.getClienteId() == null) {
             throw new BusinessException("La cuenta debe tener un cliente asignado");
         }
         return cuentaRepository.save(cuenta);
@@ -42,8 +42,8 @@ public class CuentaServiceImpl implements CuentaService {
         cuenta.setEstado(cuentaDetalles.getEstado());
         cuenta.setSaldoInicial(cuentaDetalles.getSaldoInicial());
 
-        if (cuentaDetalles.getCliente() != null) {
-            cuenta.setCliente(cuentaDetalles.getCliente());
+        if (cuentaDetalles.getClienteId() != null) {
+            cuenta.setClienteId(cuentaDetalles.getClienteId());
         }
 
         return cuentaRepository.save(cuenta);

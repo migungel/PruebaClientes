@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movimientos")
+@RequestMapping("/api/movimientos")
 public class MovimientoController {
     @Autowired
     private MovimientoService movimientoService;
@@ -33,7 +33,8 @@ public class MovimientoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Movimiento>> actualizar(@PathVariable Long id, @RequestBody Movimiento movimiento) {
+    public ResponseEntity<ApiResponse<Movimiento>> actualizar(@PathVariable Long id,
+            @RequestBody Movimiento movimiento) {
         Movimiento movimientoActualizado = movimientoService.actualizar(id, movimiento);
         return ResponseEntity.ok(new ApiResponse<>("Movimiento actualizado exitosamente", movimientoActualizado));
     }
