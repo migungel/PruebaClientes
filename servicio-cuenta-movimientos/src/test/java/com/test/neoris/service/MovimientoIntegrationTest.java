@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -41,15 +43,14 @@ public class MovimientoIntegrationTest {
         jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
 
         jdbcTemplate.execute(
-            "INSERT INTO cliente (id, nombre, genero, edad, identificacion, direccion, telefono, clienteid, contrasena, estado) " +
-            "VALUES (1, 'Test Cliente', 'Masculino', 30, '123456789', 'Test Dir', '123456', 'TEST001', 'pass', true)"
-        );
+                "INSERT INTO cliente (id, nombre, genero, edad, identificacion, direccion, telefono, clienteid, contrasena, estado) "
+                        +
+                        "VALUES (1, 'Test Cliente', 'Masculino', 30, '123456789', 'Test Dir', '123456', 'TEST001', 'pass', true)");
 
         jdbcTemplate.execute(
-            "INSERT INTO cuenta (id, numero_cuenta, tipo_cuenta, saldo_inicial, estado, cliente_id) " +
-            "VALUES (1, '123456', 'Ahorros', 1000.0, true, 1)"
-        );
-        
+                "INSERT INTO cuenta (id, numero_cuenta, tipo_cuenta, saldo_inicial, estado, cliente_id) " +
+                        "VALUES (1, '123456', 'Ahorros', 1000.0, true, 1)");
+
         cuentaTest = cuentaRepository.findById(1L).orElseThrow();
     }
 
@@ -57,20 +58,20 @@ public class MovimientoIntegrationTest {
     public void testGuardarMovimientoConSaldoSuficiente() {
         Movimiento movimiento = new Movimiento();
         movimiento.setTipoMovimiento("Retiro");
-        movimiento.setValor(-500.0);
+        movimiento.setValor(new BigDecimal("-500.0"));
         movimiento.setCuenta(cuentaTest);
 
         Movimiento resultado = movimientoService.guardar(movimiento);
 
         assertNotNull(resultado.getId());
-        assertEquals(500.0, resultado.getSaldo());
+        assertEquals(0, new BigDecimal("500.0").compareTo(resultado.getSaldo()));
     }
 
     @Test
     public void testGuardarMovimientoSinSaldoDisponible() {
         Movimiento movimiento = new Movimiento();
         movimiento.setTipoMovimiento("Retiro");
-        movimiento.setValor(-1500.0);
+        movimiento.setValor(new BigDecimal("-1500.0"));
         movimiento.setCuenta(cuentaTest);
 
         BusinessException exception = assertThrows(BusinessException.class, () -> {
@@ -84,16 +85,16 @@ public class MovimientoIntegrationTest {
     public void testActualizarSaldoConMultiplesMovimientos() {
         Movimiento mov1 = new Movimiento();
         mov1.setTipoMovimiento("Deposito");
-        mov1.setValor(500.0);
+        mov1.setValor(new BigDecimal("500.0"));
         mov1.setCuenta(cuentaTest);
         movimientoService.guardar(mov1);
 
         Movimiento mov2 = new Movimiento();
         mov2.setTipoMovimiento("Retiro");
-        mov2.setValor(-300.0);
+        mov2.setValor(new BigDecimal("-300.0"));
         mov2.setCuenta(cuentaTest);
         Movimiento resultado = movimientoService.guardar(mov2);
 
-        assertEquals(1200.0, resultado.getSaldo());
+        assertEquals(0, new BigDecimal("1200.0").compareTo(resultado.getSaldo()));
     }
 }

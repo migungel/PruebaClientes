@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,11 +42,11 @@ public class MovimientoServiceImpl implements MovimientoService {
         Cuenta cuenta = cuentaRepository.findById(movimiento.getCuenta().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("La cuenta asociada no existe"));
 
-        double saldoActual = calcularSaldoActual(cuenta.getId(), cuenta.getSaldoInicial());
-        double valorMovimiento = movimiento.getValor();
-        double nuevoSaldo = saldoActual + valorMovimiento;
+        BigDecimal saldoActual = calcularSaldoActual(cuenta.getId(), cuenta.getSaldoInicial());
+        BigDecimal valorMovimiento = movimiento.getValor();
+        BigDecimal nuevoSaldo = saldoActual.add(valorMovimiento);
 
-        if (nuevoSaldo < 0) {
+        if (nuevoSaldo.compareTo(BigDecimal.ZERO) < 0) {
             throw new BusinessException("Saldo no disponible");
         }
 
@@ -63,11 +64,11 @@ public class MovimientoServiceImpl implements MovimientoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Movimiento no encontrado con ID: " + id));
 
         Cuenta cuenta = movimientoExistente.getCuenta();
-        double saldoSinMovimiento = calcularSaldoActualExcluyendo(cuenta.getId(), cuenta.getSaldoInicial(), id);
-        double nuevoValor = movimientoDetalles.getValor();
-        double nuevoSaldoFinal = saldoSinMovimiento + nuevoValor;
+        BigDecimal saldoSinMovimiento = calcularSaldoActualExcluyendo(cuenta.getId(), cuenta.getSaldoInicial(), id);
+        BigDecimal nuevoValor = movimientoDetalles.getValor();
+        BigDecimal nuevoSaldoFinal = saldoSinMovimiento.add(nuevoValor);
 
-        if (nuevoSaldoFinal < 0) {
+        if (nuevoSaldoFinal.compareTo(BigDecimal.ZERO) < 0) {
             throw new BusinessException("Saldo no disponible para esta actualización");
         }
 
@@ -107,17 +108,21 @@ public class MovimientoServiceImpl implements MovimientoService {
                 p.getSaldoDisponible())).collect(Collectors.toList());
     }
 
-    private double calcularSaldoActual(Long cuentaId, double saldoInicial) {
+    private BigDecimal calcularSaldoActual(Long cuentaId, BigDecimal saldoInicial) {
         List<Movimiento> movimientos = movimientoRepository.findAll().stream()
                 .filter(m -> m.getCuenta().getId().equals(cuentaId))
                 .toList();
-        return saldoInicial + movimientos.stream().mapToDouble(Movimiento::getValor).sum();
+        return movimientos.stream()
+                .map(Movimiento::getValor)
+                .reduce(saldoInicial, BigDecimal::add);
     }
 
-    private double calcularSaldoActualExcluyendo(Long cuentaId, double saldoInicial, Long movimientoExcluido) {
+    private BigDecimal calcularSaldoActualExcluyendo(Long cuentaId, BigDecimal saldoInicial, Long movimientoExcluido) {
         List<Movimiento> movimientos = movimientoRepository.findAll().stream()
                 .filter(m -> m.getCuenta().getId().equals(cuentaId) && !m.getId().equals(movimientoExcluido))
                 .toList();
-        return saldoInicial + movimientos.stream().mapToDouble(Movimiento::getValor).sum();
+        return movimientos.stream()
+                .map(Movimiento::getValor)
+                .reduce(saldoInicial, BigDecimal::add);
     }
 }

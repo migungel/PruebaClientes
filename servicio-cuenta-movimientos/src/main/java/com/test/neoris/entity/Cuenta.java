@@ -3,6 +3,8 @@ package com.test.neoris.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 //@Data
 @Entity
 @Table(name = "cuenta")
@@ -15,7 +17,7 @@ public class Cuenta {
     private String numeroCuenta;
 
     private String tipoCuenta;
-    private double saldoInicial;
+    private BigDecimal saldoInicial;
     private Boolean estado;
 
     @Column(name = "cliente_id", nullable = false)
@@ -45,11 +47,11 @@ public class Cuenta {
         this.tipoCuenta = tipoCuenta;
     }
 
-    public double getSaldoInicial() {
+    public BigDecimal getSaldoInicial() {
         return saldoInicial;
     }
 
-    public void setSaldoInicial(double saldoInicial) {
+    public void setSaldoInicial(BigDecimal saldoInicial) {
         this.saldoInicial = saldoInicial;
     }
 

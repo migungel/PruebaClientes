@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 //@Data
@@ -18,8 +19,8 @@ public class Movimiento {
 
     private LocalDateTime fecha;
     private String tipoMovimiento;
-    private Double valor;
-    private Double saldo;
+    private BigDecimal valor;
+    private BigDecimal saldo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cuenta_id", nullable = false, foreignKey = @ForeignKey(name = "FK_MOVIMIENTO_CUENTA"))
@@ -49,19 +50,19 @@ public class Movimiento {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
-    public Double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 

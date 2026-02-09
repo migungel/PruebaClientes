@@ -1,14 +1,22 @@
 package com.test.neoris.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface ReporteInterface {
     LocalDate getFecha();
+
     String getCliente();
+
     String getNumeroCuenta();
+
     String getTipo();
-    Double getSaldoInicial();
+
+    BigDecimal getSaldoInicial();
+
     Boolean getEstado();
-    Double getMovimiento();
-    Double getSaldoDisponible();
+
+    BigDecimal getMovimiento();
+
+    BigDecimal getSaldoDisponible();
 }

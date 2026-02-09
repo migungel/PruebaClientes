@@ -1,5 +1,6 @@
 package com.test.neoris.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 //@Data
@@ -10,13 +11,13 @@ public class ReporteEstadoCuentaDTO {
     private String cliente;
     private String numeroCuenta;
     private String tipo;
-    private Double saldoInicial;
+    private BigDecimal saldoInicial;
     private Boolean estado;
-    private Double movimiento;
-    private Double saldoDisponible;
+    private BigDecimal movimiento;
+    private BigDecimal saldoDisponible;
 
     public ReporteEstadoCuentaDTO(LocalDate fecha, String cliente, String numeroCuenta, String tipo,
-            Double saldoInicial, Boolean estado, Double movimiento, Double saldoDisponible) {
+            BigDecimal saldoInicial, Boolean estado, BigDecimal movimiento, BigDecimal saldoDisponible) {
         this.fecha = fecha;
         this.cliente = cliente;
         this.numeroCuenta = numeroCuenta;
@@ -59,11 +60,11 @@ public class ReporteEstadoCuentaDTO {
         this.tipo = tipo;
     }
 
-    public Double getSaldoInicial() {
+    public BigDecimal getSaldoInicial() {
         return saldoInicial;
     }
 
-    public void setSaldoInicial(Double saldoInicial) {
+    public void setSaldoInicial(BigDecimal saldoInicial) {
         this.saldoInicial = saldoInicial;
     }
 
@@ -75,19 +76,19 @@ public class ReporteEstadoCuentaDTO {
         this.estado = estado;
     }
 
-    public Double getMovimiento() {
+    public BigDecimal getMovimiento() {
         return movimiento;
     }
 
-    public void setMovimiento(Double movimiento) {
+    public void setMovimiento(BigDecimal movimiento) {
         this.movimiento = movimiento;
     }
 
-    public Double getSaldoDisponible() {
+    public BigDecimal getSaldoDisponible() {
         return saldoDisponible;
     }
 
-    public void setSaldoDisponible(Double saldoDisponible) {
+    public void setSaldoDisponible(BigDecimal saldoDisponible) {
         this.saldoDisponible = saldoDisponible;
     }
 }
